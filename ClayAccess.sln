@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClayAccess.Core", "ClayAccess.Core\ClayAccess.Core.csproj", "{8E940913-8DEA-4A65-9B8F-4E7ED4D74B85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClayAccess.Infra", "ClayAccess.Infra\ClayAccess.Infra.csproj", "{0BE22D7B-7167-470B-A250-E24ED792FABC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClayAccess.Api", "ClayAccess.Api\ClayAccess.Api.csproj", "{A06B9243-9D34-439F-B83E-04C8770EA23C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8E940913-8DEA-4A65-9B8F-4E7ED4D74B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E940913-8DEA-4A65-9B8F-4E7ED4D74B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E940913-8DEA-4A65-9B8F-4E7ED4D74B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BE22D7B-7167-470B-A250-E24ED792FABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE22D7B-7167-470B-A250-E24ED792FABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BE22D7B-7167-470B-A250-E24ED792FABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE22D7B-7167-470B-A250-E24ED792FABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A06B9243-9D34-439F-B83E-04C8770EA23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A06B9243-9D34-439F-B83E-04C8770EA23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A06B9243-9D34-439F-B83E-04C8770EA23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A06B9243-9D34-439F-B83E-04C8770EA23C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
