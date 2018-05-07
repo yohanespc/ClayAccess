@@ -1,16 +1,31 @@
-﻿using ClayAccess.Core.Entities;
-using ClayAccess.Core.Interfaces;
+﻿using ClayAccess.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace ClayAccess.Infra.Repositories
 {
-	public class UserRepository : IUserRepo
+	public class UserRepository : IUserRepository
 	{
-		public User GetUserByNamePassword(string email, string password)
+		private readonly Data.ClayDb _clayDb;
+
+		public UserRepository(Data.ClayDb clayDb)
 		{
-			throw new NotImplementedException();
+			_clayDb = clayDb;
+		}
+
+		public async Task<Core.Entities.User> GetUserByEmailPassword(string email, string password)
+		{
+			Data.User dbUser = await _clayDb.Users.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
+			return dbUser == null
+				? null
+				: new Core.Entities.User() //ToDo use automapper
+				{
+					Email = dbUser.Email,
+					Name = dbUser.Name,
+					Password = dbUser.Password,
+					UserId = dbUser.UserId
+				};
 		}
 	}
 }

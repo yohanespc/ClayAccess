@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ClayAccess.Core.Interfaces
 {
-	public interface IUserRepo
+	public interface IUserRepository
 	{
-		User GetUserByNamePassword(string email, string password);
+		Task<Core.Entities.User> GetUserByEmailPassword(string email, string password);
 
 	}
 }

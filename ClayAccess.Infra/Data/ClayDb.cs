@@ -15,5 +15,7 @@ namespace ClayAccess.Infra.Data
 		{
 		}
 
+		public DbSet<User> Users { get; set; }
+
 	}
 }
