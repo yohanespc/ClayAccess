@@ -11,3 +11,10 @@ Architecture:
 2. Dependency Injection
 3. Domain Design Driven (DDD) : https://www.thoughtworks.com/insights/blog/domain-driven-design-services-architecture
    Persistence layer based on Entity Framework (EF)
+
+
+Links :
+API : http://clayaccessapi20180507051614.azurewebsites.net/
+Database : http://clayaccessapi20180507051614.azurewebsites.net/
+
+User : yohanespc
