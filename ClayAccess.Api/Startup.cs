@@ -105,5 +105,6 @@ namespace ClayAccess.Api
 			app.UseAuthentication();
 			app.UseMvc();
 		}
+
 	}
 }

@@ -14,6 +14,7 @@ namespace ClayAccess.Infra.Data
 			entityBuilder.Property(t => t.Password).IsRequired();
 			entityBuilder.Property(t => t.Name).IsRequired();
 			entityBuilder.Property(t => t.Profile).IsRequired();
+			entityBuilder.Property(t => t.LastLogin).IsRequired();
 			entityBuilder.Property(t => t.ValidFrom).IsRequired();
 			entityBuilder.Property(t => t.ValidUntil);
 		}

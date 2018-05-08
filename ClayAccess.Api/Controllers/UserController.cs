@@ -1,9 +1,11 @@
 ﻿using ClayAccess.Api.Misc;
 using ClayAccess.Api.Models;
+using ClayAccess.Core.Entities;
 using ClayAccess.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,7 +19,6 @@ namespace ClayAccess.Api.Controllers
 	{
 		protected IAccessService _accessService;
 		private IConfiguration _config;
-
 
 		public UserController(IConfiguration config, IAccessService accessService)
 		{
@@ -47,11 +48,11 @@ namespace ClayAccess.Api.Controllers
 		public IActionResult CreateUserToken([FromBody]UserLoginModel login)
 		{
 			IActionResult response = Unauthorized();
-			Core.Entities.User user = _accessService.AuthenticateUser(login.Email, login.Password);
+			Tuple<bool, User> userAuthorized = _accessService.AuthenticateUser(login.Email, login.Password);
 
-			if (user != null)
+			if (userAuthorized.Item1)
 			{
-				string tokenString = new UserToken(_config).BuildToken(user);
+				string tokenString = new UserToken(_config).BuildToken(userAuthorized.Item2);
 				response = Ok(new { token = tokenString });
 			}
 

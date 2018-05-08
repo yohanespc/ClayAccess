@@ -33,5 +33,15 @@ namespace ClayAccess.Infra.Repositories
 			return users;
 		}
 
+		public async void UpdateLastLoginTimestamp(int userId)
+		{
+			Data.User findUser = await dbUsers.FindAsync(userId);
+			if(findUser != null)
+			{
+				findUser.LastLogin = DateTime.Now;
+			}
+			_clayDb.SaveChanges();
+		}
+
 	}
 }

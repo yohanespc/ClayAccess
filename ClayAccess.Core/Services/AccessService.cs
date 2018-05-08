@@ -14,29 +14,19 @@ namespace ClayAccess.Core.Services
 
 		public AccessService(IUserRepository userRepo)
 		{
-			this._userRepo = userRepo;
+			_userRepo = userRepo;
 		}
 
-		public User AuthenticateUser(string email, string password)
+		public Tuple<bool, User> AuthenticateUser(string email, string password)
 		{
-			Core.Entities.User user = null;
-			if (email == "yohanes@email.com" && password == "AdminAlwaysRight")
+			bool result = false;
+			User dbUser = _userRepo.GetUserByEmailPassword(email, password).Result;
+			if ((dbUser.ValidUntil == null) || (DateTime.Now > dbUser.ValidFrom || dbUser.ValidUntil < dbUser.ValidFrom))
 			{
-				user = new Core.Entities.User { UserId = 1, Name = "Yohanes", Email = "yohanes@email.com", Profile = (int)UserProfile.Admin };
+				_userRepo.UpdateLastLoginTimestamp(dbUser.UserId);
+				result = true;
 			}
-			else if (email == "guest@email.com" && password == "GuestAlwaysWelcome")
-			{
-				user = new Core.Entities.User { UserId = 2, Name = "Guest 1", Email = "guest@email.com", Profile = (int)UserProfile.Guest };
-			}
-			else if (email == "intern@email.com" && password == "InternNeedToWorkHarder")
-			{
-				user = new Core.Entities.User { UserId = 2, Name = "Intern 1", Email = "intern@email.com", Profile = (int)UserProfile.Intern };
-			}
-			else if (email == "employee@email.com" && password == "EmployeeNeedMoreBonus")
-			{
-				user = new Core.Entities.User { UserId = 2, Name = "Employee 1", Email = "employee@email.com", Profile = (int)UserProfile.Employee };
-			}
-			return user;
+			return new Tuple<bool, User>(result, dbUser);
 		}
 
 		public async Task<List<User>> GetAllUsers()

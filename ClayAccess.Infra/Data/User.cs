@@ -13,6 +13,7 @@ namespace ClayAccess.Infra.Data
 		public string Email { get; set; }
 		public string Password { get; set; }
 		public int Profile { get; set; }
+		public DateTime LastLogin { get; set; }
 		public DateTime ValidFrom { get; set; }
 		public DateTime? ValidUntil { get; set; }
 
@@ -27,6 +28,7 @@ namespace ClayAccess.Infra.Data
 				Name = this.Name,
 				Password = this.Password,
 				Profile = this.Profile,
+				LastLogin = this.LastLogin,
 				ValidFrom = this.ValidFrom,
 				ValidUntil = this.ValidUntil
 			};
