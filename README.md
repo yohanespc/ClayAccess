@@ -4,6 +4,7 @@
 1. .Net Core 2.0
 2. EF Core 2.0
 3. Swagger UI
+4. XUnit + Moq
 
 
 ## Architecture:
