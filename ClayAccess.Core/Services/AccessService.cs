@@ -11,12 +11,14 @@ namespace ClayAccess.Core.Services
 		private readonly IUserRepository _userRepo;
 		private readonly IDoorRepository _doorRepository;
 		private readonly IProfileAccessRepository _profileAccessRepository;
+		private readonly IUserAccessLogRepository _userAccessLog;
 
-		public AccessService(IUserRepository userRepo, IDoorRepository doorRepository, IProfileAccessRepository profileAccessRepository)
+		public AccessService(IUserRepository userRepo, IDoorRepository doorRepository, IProfileAccessRepository profileAccessRepository, IUserAccessLogRepository userAccessLog)
 		{
 			_userRepo = userRepo;
 			_doorRepository = doorRepository;
 			_profileAccessRepository = profileAccessRepository;
+			_userAccessLog = userAccessLog;
 		}
 
 		public Tuple<bool, User> AuthenticateUser(string email, string password)
@@ -46,6 +48,25 @@ namespace ClayAccess.Core.Services
 		{
 			ProfileAccess dbProfileAccess = await _profileAccessRepository.GetProfileAccess(profileId, doorId);
 			return dbProfileAccess != null ? dbProfileAccess.EntryAccess : false;
+		}
+
+		public async Task<List<UserAccessLog>> GetLogsByCompanyId(int companyId)
+		{
+			return await _userAccessLog.GetAllLogs(companyId);
+		}
+
+		public void WriteAccessLog(bool access, int doorId, int profileId, int userId)
+		{
+			UserAccessLog userAccessLog = new UserAccessLog
+			{
+				Access = access,
+				DoorId = doorId,
+				CompanyId = 1,
+				ProfileId = profileId,
+				RequestedAccess = DateTime.Now,
+				UserId = userId
+			};
+			_userAccessLog.InsertLog(userAccessLog);
 		}
 
 	}

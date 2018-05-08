@@ -16,6 +16,7 @@ namespace ClayAccess.Infra.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+			new UserAccessLogMap(modelBuilder.Entity<UserAccessLog>());
 			new UserMap(modelBuilder.Entity<User>());
 			new DoorMap(modelBuilder.Entity<Door>());
 			new ProfileAccessMap(modelBuilder.Entity<ProfileAccess>());

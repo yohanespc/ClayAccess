@@ -27,6 +27,10 @@ namespace ClayAccess.Api.Controllers
 		[Route("GetAllUsers")]
 		public async Task<IActionResult> GetAllUsers() => new OkObjectResult(await _accessService.GetAllUsers());
 
+		[HttpGet]
+		[Route("GetLogs")]
+		public async Task<IActionResult> GetLogs() => new OkObjectResult(await _accessService.GetLogsByCompanyId(1));
+
 		[HttpGet, Authorize]
 		[Route("RequestFrontGateAccess")]
 		public async Task<IActionResult> RequestFrontGateAccess()
@@ -37,7 +41,7 @@ namespace ClayAccess.Api.Controllers
 			{
 				Door frontGate = await _accessService.GetDoorByCompanyIdName(1, Misc.Enum.Door.FrontGate.ToString());
 				grantAccess = await _accessService.GetProfileAccess(authUser.ProfileId, frontGate.DoorId);
-
+				_accessService.WriteAccessLog(grantAccess, frontGate.DoorId, authUser.ProfileId, authUser.UserId);
 			}
 			if (grantAccess)
 				return Ok();
@@ -54,6 +58,7 @@ namespace ClayAccess.Api.Controllers
 			{
 				Door mainMeetingRoom = await _accessService.GetDoorByCompanyIdName(1, Misc.Enum.Door.MainMeetingRoom.ToString());
 				grantAccess = await _accessService.GetProfileAccess(authUser.ProfileId, mainMeetingRoom.DoorId);
+				_accessService.WriteAccessLog(grantAccess, mainMeetingRoom.DoorId, authUser.ProfileId, authUser.UserId);
 			}
 			if (grantAccess)
 				return Ok();

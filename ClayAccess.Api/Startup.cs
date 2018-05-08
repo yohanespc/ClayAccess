@@ -58,6 +58,7 @@ namespace ClayAccess.Api
 
 
 			services.AddDbContext<ClayDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("csClayDb")));
+			services.AddTransient<IUserAccessLogRepository, UserAccessLogRepository>();
 			services.AddTransient<IProfileAccessRepository, ProfileAccessRepository>();
 			services.AddTransient<IDoorRepository, DoorRepository>();
 			services.AddTransient<IUserRepository, UserRepository>();
