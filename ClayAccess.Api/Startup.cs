@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ClayAccess.Api.Misc;
@@ -59,7 +60,8 @@ namespace ClayAccess.Api
 				options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
 			});
 
-			services.AddDbContext<ClayDb>(options => options.UseSqlServer(Configuration.GetConnectionString("csClayDb")));
+			
+			services.AddDbContext<ClayDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("csClayDb")));
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IAccessService, AccessService>();
 
@@ -81,8 +83,11 @@ namespace ClayAccess.Api
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
+			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+			loggerFactory.AddDebug();
+
 			app.UseSwagger();
 
 			// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.

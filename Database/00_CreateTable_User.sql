@@ -8,9 +8,12 @@ GO
 CREATE TABLE [dbo].[User](
 	[UserId] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](500) NOT NULL,
-	[Password] [nvarchar](50) NOT NULL,
 	[Email] [nvarchar](500) NOT NULL,
+	[Password] [nvarchar](500) NOT NULL,
+	[Profile][int] NOT NULL,
 	[LastLogin] [datetime] NOT NULL,
+	[ValidFrom][datetime] NOT NULL,
+	[ValidUntil][datetime] NULL,
  CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
 (
 	[UserId] ASC

@@ -1,31 +1,37 @@
 ﻿using ClayAccess.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ClayAccess.Infra.Repositories
 {
 	public class UserRepository : IUserRepository
 	{
-		private readonly Data.ClayDb _clayDb;
+		private readonly Data.ClayDbContext _clayDb;
+		private DbSet<Data.User> dbUsers;
 
-		public UserRepository(Data.ClayDb clayDb)
+		public UserRepository(Data.ClayDbContext clayDb)
 		{
 			_clayDb = clayDb;
+			dbUsers = clayDb.Set<Data.User>();
 		}
 
 		public async Task<Core.Entities.User> GetUserByEmailPassword(string email, string password)
 		{
-			Data.User dbUser = await _clayDb.Users.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
+			Data.User dbUser = await dbUsers.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
 			return dbUser == null
 				? null
-				: new Core.Entities.User() //ToDo use automapper
-				{
-					Email = dbUser.Email,
-					Name = dbUser.Name,
-					Password = dbUser.Password,
-					UserId = dbUser.UserId
-				};
+				: dbUser.ToUserEntity();
 		}
+
+		public async Task<List<Core.Entities.User>> GetAllUsers()
+		{
+			List<Data.User> dbUser = await dbUsers.ToListAsync();
+			List<Core.Entities.User> users = new List<Core.Entities.User>();
+			dbUser.ForEach(x => users.Add(x.ToUserEntity()));
+			return users;
+		}
+
 	}
 }

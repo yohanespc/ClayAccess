@@ -39,5 +39,10 @@ namespace ClayAccess.Core.Services
 			return user;
 		}
 
+		public async Task<List<User>> GetAllUsers()
+		{
+			return await _userRepo.GetAllUsers();
+		}
+
 	}
 }

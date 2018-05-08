@@ -4,12 +4,8 @@ using ClayAccess.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using static ClayAccess.Core.Misc.Enum;
 
@@ -28,6 +24,10 @@ namespace ClayAccess.Api.Controllers
 			_config = config;
 			_accessService = accessService;
 		}
+
+		[HttpGet]
+		[Route("GetAllUsers")]
+		public async Task<IActionResult> GetAllUsers() => new OkObjectResult(await _accessService.GetAllUsers());
 
 		[HttpGet, Authorize]
 		[Route("RequestFrontGateOpen")]
@@ -57,9 +57,6 @@ namespace ClayAccess.Api.Controllers
 
 			return response;
 		}
-
-
-
 
 	}
 }
