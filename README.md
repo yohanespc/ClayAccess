@@ -1,4 +1,4 @@
-# ClayAccess
+# ClayAccess API
 
 Tech details:
 1. .Net Core 2.0
