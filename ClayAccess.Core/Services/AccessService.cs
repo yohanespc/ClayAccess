@@ -2,19 +2,21 @@
 using ClayAccess.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using static ClayAccess.Core.Misc.Enum;
 
 namespace ClayAccess.Core.Services
 {
 	public class AccessService : IAccessService
 	{
 		private readonly IUserRepository _userRepo;
+		private readonly IDoorRepository _doorRepository;
+		private readonly IProfileAccessRepository _profileAccessRepository;
 
-		public AccessService(IUserRepository userRepo)
+		public AccessService(IUserRepository userRepo, IDoorRepository doorRepository, IProfileAccessRepository profileAccessRepository)
 		{
 			_userRepo = userRepo;
+			_doorRepository = doorRepository;
+			_profileAccessRepository = profileAccessRepository;
 		}
 
 		public Tuple<bool, User> AuthenticateUser(string email, string password)
@@ -32,6 +34,18 @@ namespace ClayAccess.Core.Services
 		public async Task<List<User>> GetAllUsers()
 		{
 			return await _userRepo.GetAllUsers();
+		}
+
+		public async Task<Door> GetDoorByCompanyIdName(int companyId, string name)
+		{
+			Door dbDoor = await _doorRepository.GetDoorByCompanyIdName(companyId, name);
+			return dbDoor;
+		}
+
+		public async Task<bool> GetProfileAccess(int profileId, int doorId)
+		{
+			ProfileAccess dbProfileAccess = await _profileAccessRepository.GetProfileAccess(profileId, doorId);
+			return dbProfileAccess != null ? dbProfileAccess.EntryAccess : false;
 		}
 
 	}

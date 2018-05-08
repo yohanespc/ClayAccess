@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace ClayAccess.Infra.Data
 {
@@ -12,14 +10,14 @@ namespace ClayAccess.Infra.Data
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public string Password { get; set; }
-		public int Profile { get; set; }
+		public int ProfileId { get; set; }
 		public DateTime LastLogin { get; set; }
 		public DateTime ValidFrom { get; set; }
 		public DateTime? ValidUntil { get; set; }
 
 		public User() { }
 
-		public Core.Entities.User ToUserEntity() // ToDo: use automapper
+		public Core.Entities.User ToEntity() // ToDo: use automapper
 		{
 			return new Core.Entities.User()
 			{
@@ -27,7 +25,7 @@ namespace ClayAccess.Infra.Data
 				Email = this.Email,
 				Name = this.Name,
 				Password = this.Password,
-				Profile = this.Profile,
+				ProfileId = this.ProfileId,
 				LastLogin = this.LastLogin,
 				ValidFrom = this.ValidFrom,
 				ValidUntil = this.ValidUntil

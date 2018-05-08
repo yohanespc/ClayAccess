@@ -22,14 +22,14 @@ namespace ClayAccess.Infra.Repositories
 			Data.User dbUser = await dbUsers.FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
 			return dbUser == null
 				? null
-				: dbUser.ToUserEntity();
+				: dbUser.ToEntity();
 		}
 
 		public async Task<List<Core.Entities.User>> GetAllUsers()
 		{
 			List<Data.User> dbUser = await dbUsers.ToListAsync();
 			List<Core.Entities.User> users = new List<Core.Entities.User>();
-			dbUser.ForEach(x => users.Add(x.ToUserEntity()));
+			dbUser.ForEach(x => users.Add(x.ToEntity()));
 			return users;
 		}
 

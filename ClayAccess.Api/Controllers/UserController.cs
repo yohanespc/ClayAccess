@@ -6,10 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using static ClayAccess.Core.Misc.Enum;
 
 namespace ClayAccess.Api.Controllers
 {
@@ -31,15 +28,36 @@ namespace ClayAccess.Api.Controllers
 		public async Task<IActionResult> GetAllUsers() => new OkObjectResult(await _accessService.GetAllUsers());
 
 		[HttpGet, Authorize]
-		[Route("RequestFrontGateOpen")]
-		public IActionResult RequestFrontGateOpen()
+		[Route("RequestFrontGateAccess")]
+		public async Task<IActionResult> RequestFrontGateAccess()
 		{
-			var currentUser = HttpContext.User;
-			if (currentUser.HasClaim(c => c.Type == ClaimTypes.NameIdentifier)) // profile
+			bool grantAccess = false;
+			AuthorizedUserModel authUser = new AuthorizedUserModel(HttpContext.User);
+			if (authUser != null && authUser.UserId > 0 && authUser.ProfileId > 0)
 			{
-				UserProfile profile = (UserProfile)int.Parse(currentUser.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+				Door frontGate = await _accessService.GetDoorByCompanyIdName(1, Misc.Enum.Door.FrontGate.ToString());
+				grantAccess = await _accessService.GetProfileAccess(authUser.ProfileId, frontGate.DoorId);
+
 			}
-			return Ok();
+			if (grantAccess)
+				return Ok();
+			return Unauthorized();
+		}
+
+		[HttpGet, Authorize]
+		[Route("RequestMainMeetingRoomAccess")]
+		public async Task<IActionResult> RequestMainMeetingRoomAccess()
+		{
+			bool grantAccess = false;
+			AuthorizedUserModel authUser = new AuthorizedUserModel(HttpContext.User);
+			if (authUser != null && authUser.UserId > 0 && authUser.ProfileId > 0)
+			{
+				Door mainMeetingRoom = await _accessService.GetDoorByCompanyIdName(1, Misc.Enum.Door.MainMeetingRoom.ToString());
+				grantAccess = await _accessService.GetProfileAccess(authUser.ProfileId, mainMeetingRoom.DoorId);
+			}
+			if (grantAccess)
+				return Ok();
+			return Unauthorized();
 		}
 
 		[AllowAnonymous]

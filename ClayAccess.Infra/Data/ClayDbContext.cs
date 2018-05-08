@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ClayAccess.Infra.Data.Map;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClayAccess.Infra.Data
 {
@@ -15,12 +13,14 @@ namespace ClayAccess.Infra.Data
 		{
 		}
 
-		//public DbSet<User> User { get; set; }
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 			new UserMap(modelBuilder.Entity<User>());
+			new DoorMap(modelBuilder.Entity<Door>());
+			new ProfileAccessMap(modelBuilder.Entity<ProfileAccess>());
+			new ProfileMap(modelBuilder.Entity<Profile>());
+
 		}
 	}
 }

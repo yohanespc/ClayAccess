@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using ClayAccess.Api.Misc;
+﻿using ClayAccess.Api.Misc;
 using ClayAccess.Core.Interfaces;
 using ClayAccess.Core.Services;
 using ClayAccess.Infra.Data;
@@ -16,9 +10,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ShopApi.Misc.Exceptions;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Text;
 
 namespace ClayAccess.Api
 {
@@ -51,6 +46,7 @@ namespace ClayAccess.Api
 
 			services.AddMvc(config =>
 			{
+				config.Filters.Add(typeof(CustomExceptionFilter));
 				config.Filters.Add(typeof(GlobalActionFilterAttribute));
 			})
 			.AddJsonOptions(options =>
@@ -60,10 +56,13 @@ namespace ClayAccess.Api
 				options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
 			});
 
-			
+
 			services.AddDbContext<ClayDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("csClayDb")));
+			services.AddTransient<IProfileAccessRepository, ProfileAccessRepository>();
+			services.AddTransient<IDoorRepository, DoorRepository>();
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IAccessService, AccessService>();
+
 
 			services.AddSwaggerGen(c =>
 			{

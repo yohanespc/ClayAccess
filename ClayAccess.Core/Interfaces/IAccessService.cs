@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ClayAccess.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ClayAccess.Core.Entities;
 
 namespace ClayAccess.Core.Interfaces
 {
@@ -9,5 +9,7 @@ namespace ClayAccess.Core.Interfaces
 	{
 		Tuple<bool, User> AuthenticateUser(string email, string password);
 		Task<List<User>> GetAllUsers();
+		Task<Door> GetDoorByCompanyIdName(int companyId, string name);
+		Task<bool> GetProfileAccess(int profileId, int doorId);
 	}
 }

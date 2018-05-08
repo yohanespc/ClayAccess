@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ClayAccess.Core.Entities
 {
@@ -10,14 +8,11 @@ namespace ClayAccess.Core.Entities
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public string Password { get; set; }
-		public int Profile { get; set; }
+		public int ProfileId { get; set; }
 		public DateTime LastLogin { get; set; }
 		public DateTime ValidFrom { get; set; }
 		public DateTime? ValidUntil { get; set; }
 
-		public User()
-		{
-
-		}
+		public User() { }
 	}
 }
